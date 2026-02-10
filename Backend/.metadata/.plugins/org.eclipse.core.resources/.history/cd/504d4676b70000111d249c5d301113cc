@@ -1,0 +1,55 @@
+package com.internship.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+    // 🔐 Password encoder (used during login & registration)
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    // 🔐 Authentication manager (connects Spring Security with DB)
+    @Bean
+    public AuthenticationManager authenticationManager(
+            AuthenticationConfiguration configuration) throws Exception {
+        return configuration.getAuthenticationManager();
+    }
+
+    // 🔐 Security rules
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+            // REST API → disable CSRF
+            .csrf(csrf -> csrf.disable())
+
+            // Disable form login (Postman / frontend APIs)
+            .formLogin(form -> form.disable())
+
+            // Disable basic auth (we’ll use JWT later)
+            .httpBasic(basic -> basic.disable())
+
+            // Authorization rules
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/api/v1/auth/**",   // login / register
+                    "/api/v1/users"      // create user
+                ).permitAll()
+                .anyRequest().authenticated()
+            );
+
+        return http.build();
+    }
+}

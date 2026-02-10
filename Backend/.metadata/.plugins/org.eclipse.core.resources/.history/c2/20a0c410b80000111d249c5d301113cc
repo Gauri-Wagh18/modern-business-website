@@ -1,0 +1,5 @@
+package com.internship.dto;
+
+public class LoginRequest {
+
+}

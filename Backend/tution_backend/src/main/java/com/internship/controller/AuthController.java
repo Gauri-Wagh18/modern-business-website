@@ -1,0 +1,36 @@
+package com.internship.controller;
+
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.*;
+
+import com.internship.dto.LoginRequest;
+import com.internship.security.JwtUtil;
+
+@RestController
+@RequestMapping("/api/v1/auth")
+public class AuthController {
+
+    private final AuthenticationManager authManager;
+    private final JwtUtil jwtUtil;
+
+    public AuthController(AuthenticationManager authManager, JwtUtil jwtUtil) 
+    {
+        this.authManager = authManager;
+        this.jwtUtil = jwtUtil;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) 
+    {
+    	System.out.println("Login_Req:"+request.toString());
+        authManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
+        String token = jwtUtil.generateToken(request.getEmail());
+        System.out.println("TOken:"+token);
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+}
+
