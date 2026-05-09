@@ -1,0 +1,68 @@
+body {
+  margin: 0;
+  background: #0a0d14;
+  color: #e4e7eb;
+  font-family: "Inter", sans-serif;
+}
+
+.app {
+  padding: 20px;
+}
+
+h1 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+/* Top stats */
+.top-bar {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  flex: 1;
+  background: #121826;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #1f2937;
+}
+
+.stat-box h4 {
+  margin: 0;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.stat-box p {
+  margin-top: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Grid */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+input {
+  padding: 8px;
+  background: #121826;
+  border: 1px solid #1f2937;
+  color: white;
+  border-radius: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  background: #00c896;
+  border: none;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+}
